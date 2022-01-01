@@ -5,7 +5,9 @@ import 'package:meals/dummy_data.dart';
 
 class MealDetailScreen extends StatelessWidget {
   static const routeName = "/Meal-Detail";
-  const MealDetailScreen({Key? key}) : super(key: key);
+  final Function toggleFavourite;
+  final Function isfavt;
+  const MealDetailScreen(this.toggleFavourite, this.isfavt);
   @override
   Widget build(BuildContext context) {
     final mealId = ModalRoute.of(context)?.settings.arguments as String;
@@ -37,6 +39,15 @@ class MealDetailScreen extends StatelessWidget {
             list: selectedMeal.steps,
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          isfavt(mealId) ? Icons.star : Icons.star_border,
+        ),
+        backgroundColor: Colors.green,
+        onPressed: () {
+          toggleFavourite(selectedMeal.id);
+        },
       ),
     );
   }

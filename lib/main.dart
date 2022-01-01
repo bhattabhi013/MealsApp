@@ -1,12 +1,9 @@
-// ignore_for_file: unused_field
-
 import 'package:flutter/material.dart';
 import 'package:meals/Screens/filtersScreen.dart';
 import 'package:meals/Screens/meal_detail_screen.dart';
 import 'package:meals/dummy_data.dart';
 import 'package:meals/models/meal.dart';
 
-import '../Screens/categories.dart';
 import '../Screens/category_meals_screen.dart';
 import 'Screens/tabs.dart';
 
@@ -27,16 +24,50 @@ class _MealsAppState extends State<MealsApp> {
     'vegetarian': false,
   };
 
-  void _setFilters(Map<String, bool> filterParams) {
+  void _setFilters(Map<String, bool> filteredParams) {
     setState(() {
-      _filters = filterParams;
-      // _availableMeals = DUMMY_MEALS.where((meal) {
-
-      // });
+      _filters = filteredParams;
+      _availableMeals = DUMMY_MEALS.where((meal) {
+        if (_filters!['gluten'] as bool && !meal.isGlutenFree) {
+          return false;
+        }
+        if (_filters!['lactose'] as bool && !meal.isLactoseFree) {
+          return false;
+        }
+        if (_filters!['vegan'] as bool && !meal.isVegan) {
+          return false;
+        }
+        if (_filters!['vegetarian'] as bool && !meal.isVegetarian) {
+          return false;
+        }
+        return true;
+      }).toList();
     });
   }
 
+  void toggleFavourite(String mealId) {
+    print(mealId);
+    int? existingIndex =
+        _favouriteMeals.indexWhere((meal) => mealId == meal.id);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favouriteMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favouriteMeals.add(
+          DUMMY_MEALS.firstWhere((meal) => meal.id == mealId),
+        );
+      });
+    }
+  }
+
+  bool IsMealFavt(String mealId) {
+    return _favouriteMeals.any((meal) => meal.id == mealId);
+  }
+
   List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favouriteMeals = [];
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +79,14 @@ class _MealsAppState extends State<MealsApp> {
       ),
       // home: CategoryList(),
       routes: {
-        '/': (ctx) => TabsScreen(), // defeault home with /
+        '/': (ctx) => TabsScreen(_favouriteMeals), // defeault home with /
         CategoryMealsScreen.routeName: (ctx) =>
             CategoryMealsScreen(_availableMeals),
-        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        MealDetailScreen.routeName: (ctx) =>
+            MealDetailScreen(toggleFavourite, IsMealFavt),
         FilterScreen.routeName: (ctx) => FilterScreen(
-              onPressed: _setFilters,
+              saveFilters: _setFilters,
+              filters: _filters,
             ),
       },
       // onGenerateRoute: (settings) {

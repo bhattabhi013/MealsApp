@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals/Widgets/meal_item.dart';
 import 'package:meals/models/meal.dart';
-import '../dummy_data.dart';
 
 class CategoryMealsScreen extends StatelessWidget {
   // final String id;
