@@ -1,16 +1,11 @@
-# Expense Calculator App
-  keep a monitor on your weekly expenses.
+# Meals App Demo
+Now, enjoy the recipes of your favourite meals on this app where you can select your facourite among variety of different meals.
+This app demonstrates demo for navigation, tabs and drawers in Flutter.
 
 ## Getting Started
 
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1) Fork or clone the project in your git repo.
+2) Set up local environment in your machine.
+3) Pull the project files from your repo to your local machine.
+4) run command `flutter pub get` to install all the packages from pubspec.yaml.
+5) `flutter run` and now you are ready to go.
